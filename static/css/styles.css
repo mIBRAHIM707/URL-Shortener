@@ -44,6 +44,37 @@ body {
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 55px;
+    height: 55px;
+    margin-right: 12px;
+    background-color: var(--spotify-black);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--spotify-black);
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: rotate(10deg);
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
 .header-title {
     color: var(--spotify-green);
     font-weight: 700;
@@ -329,5 +360,11 @@ button:hover, .btn:hover {
 
     .header-title {
         font-size: 1.2rem;
+    }
+
+    .logo {
+        width: 28px;
+        height: 28px;
+        margin-right: 8px;
     }
 }
