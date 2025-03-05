@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>URL Not Found</title>
+    <title>URL Not Found | mIbrahim707's URL Shortener</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body class="centered-container">
-    <div class="container error-container">
-        <div class="emoji">😕</div>
-        <h1 class="error-heading">404 - URL Not Found</h1>
-        <p style="font-size: 1.2rem;">The short URL you requested could not be found or has been removed.</p>
+<body>
+    <header class="header">
+        <h2 class="header-title">mIbrahim707's <span>URL Shortener</span></h2>
+    </header>
 
-        <a href="/" class="back-btn">Back to Home</a>
+    <div class="centered-container">
+        <div class="container error-container">
+            <div class="emoji">😕</div>
+            <h1 class="error-heading">404 - Link Not Found</h1>
+            <p style="font-size: 1.1rem; color: var(--spotify-text); margin-bottom: 20px;">
+                The short URL you requested could not be found or has expired.
+            </p>
+
+            <a href="/" class="back-btn">Back to Home</a>
+        </div>
     </div>
 </body>
 </html>

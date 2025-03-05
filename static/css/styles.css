@@ -1,88 +1,144 @@
-/* Global Styles */
+/* Global Styles - Spotify-inspired Dark Theme */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+:root {
+    --spotify-black: #121212;
+    --spotify-dark-gray: #1d1d1d;
+    --spotify-light-gray: #282828;
+    --spotify-green: #1DB954;
+    --spotify-green-hover: #1ed760;
+    --spotify-white: #FFFFFF;
+    --spotify-text: #b3b3b3;
+    --spotify-error: #f15e6c;
+    --nav-height: 60px;
+}
+
 body { 
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f5f7fa;
-    padding: 20px;
+    color: var(--spotify-white);
+    background-color: var(--spotify-black);
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Header */
+.header {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.header-title {
+    color: var(--spotify-green);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+}
+
+.header-title span {
+    color: var(--spotify-white);
 }
 
 /* Layout */
 .container {
-    background: white;
+    background: var(--spotify-dark-gray);
     border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     text-align: center;
+    width: 90%;
+    max-width: 700px;
 }
 
 /* Typography */
 h1 {
-    color: #4361ee;
+    color: var(--spotify-white);
     margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 2.2rem;
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: -0.5px;
 }
 
 p.subtitle {
-    color: #666;
-    margin-bottom: 25px;
+    color: var(--spotify-text);
+    margin-bottom: 30px;
     font-weight: 300;
+    font-size: 1.1rem;
 }
 
 /* Form Elements */
 .url-form {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    width: 100%;
 }
 
 .input-group {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
 }
 
 input[type="url"] { 
     flex: 1;
-    padding: 16px;
-    border: 2px solid #eaeaea;
+    padding: 18px 20px;
+    border: none;
+    background-color: var(--spotify-light-gray);
+    color: var(--spotify-white);
     border-radius: 8px 0 0 8px;
     font-size: 16px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+}
+
+input[type="url"]::placeholder {
+    color: #777;
 }
 
 input[type="url"]:focus {
     outline: none;
-    border-color: #4361ee;
+    background-color: #333;
 }
 
-input[type="url"]:invalid { 
-    border-color: #ff6b6b; 
-} 
+input[type="url"]:invalid {
+    box-shadow: inset 0 0 0 2px var(--spotify-error);
+}
 
 button, .btn {
-    padding: 16px 24px;
-    background-color: #4361ee;
-    color: white;
+    padding: 18px 24px;
+    background-color: var(--spotify-green);
+    color: var(--spotify-black);
     border: none;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
 }
 
 button:hover, .btn:hover {
-    background-color: #3a56d4;
+    background-color: var(--spotify-green-hover);
+    transform: scale(1.02);
 }
 
 .form-button {
@@ -93,40 +149,83 @@ button:hover, .btn:hover {
 #result {
     margin-top: 20px;
     transition: all 0.3s ease;
+    min-height: 30px;
 }
 
 .error { 
-    color: #ff6b6b;
-    padding: 10px;
+    color: var(--spotify-error);
+    padding: 15px;
     border-radius: 8px;
-    background-color: rgba(255, 107, 107, 0.1);
-}
-
-.success-card {
-    background-color: #f5f7fa;
-    padding: 20px;
-    border-radius: 8px;
-    display: none;
-    margin-top: 20px;
+    background-color: rgba(241, 94, 108, 0.15);
     animation: fadeIn 0.5s;
 }
 
+.processing {
+    color: var(--spotify-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(29, 185, 84, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--spotify-green);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.success-card {
+    background-color: var(--spotify-light-gray);
+    padding: 25px;
+    border-radius: 10px;
+    display: none;
+    margin-top: 25px;
+    animation: fadeIn 0.5s;
+    border-left: 4px solid var(--spotify-green);
+}
+
+.success-card p {
+    color: var(--spotify-text);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
 .success-card a {
-    color: #4361ee;
+    color: var(--spotify-green);
     text-decoration: none;
     font-weight: 500;
     word-break: break-all;
+    font-size: 1.1rem;
+    display: block;
+    margin: 15px 0;
+}
+
+.success-card a:hover {
+    text-decoration: underline;
 }
 
 .copy-btn {
-    background: #4361ee;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    margin-top: 10px;
+    background: var(--spotify-light-gray);
+    color: var(--spotify-white);
+    border: 1px solid #444;
+    padding: 10px 18px;
+    border-radius: 30px;
+    margin-top: 15px;
     cursor: pointer;
     font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+    background: #333;
+    border-color: #555;
 }
 
 /* 404 Page Specific */
@@ -135,51 +234,63 @@ button:hover, .btn:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    min-height: 100vh;
+    padding-top: var(--nav-height);
+    padding-bottom: 20px;
 }
 
 .error-container {
     max-width: 700px;
-    width: 100%;
+    width: 90%;
 }
 
 .error-heading {
-    color: #ff6b6b;
+    color: var(--spotify-error);
     font-size: 3rem;
 }
 
 .emoji {
     font-size: 5rem;
     margin-bottom: 20px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
 .back-btn {
-    background-color: #4361ee;
-    color: white;
+    background-color: var(--spotify-green);
+    color: var(--spotify-black);
     border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
+    padding: 12px 30px;
+    border-radius: 30px;
     font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     display: inline-block;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
+    transition: all 0.2s ease;
+    margin-top: 25px;
+    font-size: 1rem;
 }
 
 .back-btn:hover {
-    background-color: #2b48c6;
+    background-color: var(--spotify-green-hover);
+    transform: scale(1.05);
 }
 
 /* Home Page Specific */
 .home-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     justify-content: center;
+    align-items: center;
+    padding: calc(var(--nav-height) + 20px) 20px 40px 20px;
 }
 
 /* Animations */
@@ -190,15 +301,33 @@ button:hover, .btn:hover {
 
 /* Responsive Design */
 @media (max-width: 600px) {
+    .container {
+        padding: 25px 20px;
+    }
+
     .input-group {
         flex-direction: column;
     }
     
     input[type="url"] {
         border-radius: 8px 8px 0 0;
+        padding: 15px;
     }
     
-    button {
+    button.form-button {
         border-radius: 0 0 8px 8px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .header {
+        padding: 0 20px;
+    }
+
+    .header-title {
+        font-size: 1.2rem;
     }
 }

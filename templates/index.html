@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>URL Shortener</title>
+    <title>mIbrahim707's URL Shortener</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+    <header class="header">
+        <h2 class="header-title">mIbrahim707's <span>URL Shortener</span></h2>
+    </header>
+
     <div class="home-container">
         <div class="container">
-            <h1>URL Shortener</h1>
-            <p class="subtitle">Paste your long URL below and get a short link instantly</p>
+            <h1>Shorten Your Links</h1>
+            <p class="subtitle">Transform long URLs into brief, memorable links with just a click</p>
             
             <form action="/shorten" method="post" class="url-form">
                 <div class="input-group">
-                    <input type="url" name="url" placeholder="Enter your long URL" required
+                    <input type="url" name="url" placeholder="Paste your long URL here" required
                         pattern="https?://.+">
                     <button type="submit" class="form-button">Shorten</button>
                 </div>
@@ -22,7 +26,7 @@
             
             <div id="result"></div>
             <div class="success-card" id="success-card">
-                <p>Your shortened URL:</p>
+                <p>Your shortened URL is ready:</p>
                 <a href="#" id="short-url-link" target="_blank"></a>
                 <div>
                     <button class="copy-btn" id="copy-btn">Copy to Clipboard</button>
@@ -41,7 +45,7 @@
 
       // Visual feedback on input focus/blur
       urlInput.addEventListener('focus', () => {
-        urlInput.style.boxShadow = '0 0 0 2px rgba(67, 97, 238, 0.3)';
+        urlInput.style.boxShadow = '0 0 0 2px rgba(29, 185, 84, 0.3)';
       });
       
       urlInput.addEventListener('blur', () => {
@@ -56,7 +60,7 @@
         resultDiv.innerHTML = '';
 
         // Show loading indicator
-        resultDiv.innerHTML = '<p>Processing...</p>';
+        resultDiv.innerHTML = '<p class="processing"><span class="spinner"></span> Generating your short link...</p>';
 
         // Basic frontend validation
         if (!urlInput.checkValidity()) {
@@ -98,11 +102,13 @@
         navigator.clipboard.writeText(shortUrlLink.textContent).then(() => {
           const originalText = copyBtn.textContent;
           copyBtn.textContent = 'Copied!';
-          copyBtn.style.backgroundColor = '#43a047';
+          copyBtn.style.backgroundColor = 'var(--spotify-green)';
+          copyBtn.style.color = 'var(--spotify-black)';
           
           setTimeout(() => {
             copyBtn.textContent = originalText;
-            copyBtn.style.backgroundColor = '#4361ee';
+            copyBtn.style.backgroundColor = 'var(--spotify-light-gray)';
+            copyBtn.style.color = 'var(--spotify-white)';
           }, 2000);
         });
       });
