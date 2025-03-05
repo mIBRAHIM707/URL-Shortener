@@ -68,7 +68,11 @@ def redirect_to_original(short_code):
         return redirect(original_url, code=301)
     else:
         conn.close()
-        return "URL not found", 404
+        return render_template('404.html'), 404
+    
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 # --- URL Validation (using regex) ---
 import re
