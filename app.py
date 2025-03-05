@@ -24,7 +24,7 @@ def shorten_url():
     original_url = request.form['url']
 
     if not is_valid_url(original_url):
-        return jsonify({'error': 'Invalid URL'}), 400
+        return jsonify({'error': 'Invalid URL. Please provide a valid URL starting with http:// or https://'}), 400
 
 
     conn = get_db_connection()

@@ -4,14 +4,17 @@
     <title>URL Shortener</title>
     <style>
         body { font-family: sans-serif; }
-        input[type="url"] { width: 300px; padding: 8px; }
+        input[type="url"] { width: 300px; padding: 8px; border: 1px solid #ccc; }
+        input[type="url"]:invalid { border-color: red; } /* Highlight invalid input */
         button { padding: 8px 12px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        .error { color: red; } /* Style for error messages */
     </style>
 </head>
 <body>
     <h1>URL Shortener</h1>
     <form action="/shorten" method="post">
-        <input type="url" name="url" placeholder="Enter your long URL" required>
+        <input type="url" name="url" placeholder="Enter your long URL" required
+               pattern="https?://.+">
         <button type="submit">Shorten</button>
     </form>
     <div id="result"></div>
@@ -19,9 +22,16 @@
     <script>
       const form = document.querySelector('form');
       const resultDiv = document.getElementById('result');
+      const urlInput = document.querySelector('input[name="url"]'); // Get the URL input
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent default form submission
+
+        // Basic frontend validation (using the 'pattern' attribute)
+        if (!urlInput.checkValidity()) {
+           resultDiv.innerHTML = '<p class="error">Please enter a valid URL (starting with http:// or https://).</p>';
+           return; // Stop if invalid
+        }
 
         const formData = new FormData(form);
         const response = await fetch('/shorten', {
@@ -35,10 +45,10 @@
           form.reset(); //clear form
         } else if (response.status === 400) {
             const data = await response.json();
-            resultDiv.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`
+            resultDiv.innerHTML = `<p class="error">Error: ${data.error}</p>`
         }
         else {
-          resultDiv.innerHTML = '<p style="color:red;">An error occurred.</p>';
+          resultDiv.innerHTML = '<p class="error">An error occurred.</p>';
         }
       });
     </script>
