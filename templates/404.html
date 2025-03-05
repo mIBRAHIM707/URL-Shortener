@@ -2,13 +2,17 @@
 <html>
 <head>
     <title>URL Not Found</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; }
-        h1 { color: red; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body>
-    <h1>404 - URL Not Found</h1>
-    <p>The short URL you requested could not be found.</p>
+<body class="centered-container">
+    <div class="container error-container">
+        <div class="emoji">😕</div>
+        <h1 class="error-heading">404 - URL Not Found</h1>
+        <p style="font-size: 1.2rem;">The short URL you requested could not be found or has been removed.</p>
+
+        <a href="/" class="back-btn">Back to Home</a>
+    </div>
 </body>
 </html>

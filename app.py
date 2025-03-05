@@ -1,8 +1,8 @@
-from flask import Flask, request, redirect, render_template, jsonify
+from flask import Flask, request, redirect, render_template, jsonify, url_for
 import sqlite3
 import base62  # Make sure you have pybase62 installed: pip install pybase62
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 # --- Helper Functions ---
 def get_db_connection():

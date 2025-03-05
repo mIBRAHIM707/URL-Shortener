@@ -2,54 +2,109 @@
 <html>
 <head>
     <title>URL Shortener</title>
-    <style>
-        body { font-family: sans-serif; }
-        input[type="url"] { width: 300px; padding: 8px; border: 1px solid #ccc; }
-        input[type="url"]:invalid { border-color: red; } /* Highlight invalid input */
-        button { padding: 8px 12px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        .error { color: red; } /* Style for error messages */
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>URL Shortener</h1>
-    <form action="/shorten" method="post">
-        <input type="url" name="url" placeholder="Enter your long URL" required
-               pattern="https?://.+">
-        <button type="submit">Shorten</button>
-    </form>
-    <div id="result"></div>
+    <div class="home-container">
+        <div class="container">
+            <h1>URL Shortener</h1>
+            <p class="subtitle">Paste your long URL below and get a short link instantly</p>
+            
+            <form action="/shorten" method="post" class="url-form">
+                <div class="input-group">
+                    <input type="url" name="url" placeholder="Enter your long URL" required
+                        pattern="https?://.+">
+                    <button type="submit" class="form-button">Shorten</button>
+                </div>
+            </form>
+            
+            <div id="result"></div>
+            <div class="success-card" id="success-card">
+                <p>Your shortened URL:</p>
+                <a href="#" id="short-url-link" target="_blank"></a>
+                <div>
+                    <button class="copy-btn" id="copy-btn">Copy to Clipboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
       const form = document.querySelector('form');
       const resultDiv = document.getElementById('result');
-      const urlInput = document.querySelector('input[name="url"]'); // Get the URL input
+      const urlInput = document.querySelector('input[name="url"]');
+      const successCard = document.getElementById('success-card');
+      const shortUrlLink = document.getElementById('short-url-link');
+      const copyBtn = document.getElementById('copy-btn');
+
+      // Visual feedback on input focus/blur
+      urlInput.addEventListener('focus', () => {
+        urlInput.style.boxShadow = '0 0 0 2px rgba(67, 97, 238, 0.3)';
+      });
+      
+      urlInput.addEventListener('blur', () => {
+        urlInput.style.boxShadow = 'none';
+      });
 
       form.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
+        
+        // Hide previous results
+        successCard.style.display = 'none';
+        resultDiv.innerHTML = '';
 
-        // Basic frontend validation (using the 'pattern' attribute)
+        // Show loading indicator
+        resultDiv.innerHTML = '<p>Processing...</p>';
+
+        // Basic frontend validation
         if (!urlInput.checkValidity()) {
            resultDiv.innerHTML = '<p class="error">Please enter a valid URL (starting with http:// or https://).</p>';
-           return; // Stop if invalid
+           return;
         }
 
         const formData = new FormData(form);
-        const response = await fetch('/shorten', {
-          method: 'POST',
-          body: formData,
-        });
+        try {
+          const response = await fetch('/shorten', {
+            method: 'POST',
+            body: formData,
+          });
 
-        if (response.ok) {
-          const data = await response.json();
-          resultDiv.innerHTML = `<p>Shortened URL: <a href="${data.short_url}" target="_blank">${data.short_url}</a></p>`;
-          form.reset(); //clear form
-        } else if (response.status === 400) {
+          if (response.ok) {
             const data = await response.json();
-            resultDiv.innerHTML = `<p class="error">Error: ${data.error}</p>`
+            resultDiv.innerHTML = '';
+            
+            // Update success card
+            shortUrlLink.href = data.short_url;
+            shortUrlLink.textContent = data.short_url;
+            successCard.style.display = 'block';
+            
+            // Clear form
+            form.reset();
+          } else if (response.status === 400) {
+              const data = await response.json();
+              resultDiv.innerHTML = `<p class="error">Error: ${data.error}</p>`;
+          } else {
+            resultDiv.innerHTML = '<p class="error">An error occurred while processing your request.</p>';
+          }
+        } catch (error) {
+          resultDiv.innerHTML = '<p class="error">Network error. Please try again later.</p>';
         }
-        else {
-          resultDiv.innerHTML = '<p class="error">An error occurred.</p>';
-        }
+      });
+      
+      // Copy to clipboard functionality
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(shortUrlLink.textContent).then(() => {
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          copyBtn.style.backgroundColor = '#43a047';
+          
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.backgroundColor = '#4361ee';
+          }, 2000);
+        });
       });
     </script>
 </body>
