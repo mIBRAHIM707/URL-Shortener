@@ -31,8 +31,7 @@ def shorten_url():
     cursor = conn.cursor()
 
     while True: #collision handling loop
-        cursor.execute("INSERT INTO urls (original_url) VALUES (?)", (original_url,))
-        conn.commit()
+        cursor.execute("INSERT INTO urls (original_url, short_code) VALUES (?, ?)", (original_url, 'temp'))        conn.commit()
         new_id = cursor.lastrowid
         short_code = generate_short_code(new_id)
 
